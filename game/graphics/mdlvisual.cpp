@@ -743,7 +743,11 @@ bool MdlVisual::startAnim(Npc &npc, WeaponState st) {
   }
 
 void MdlVisual::setAnimRotate(Npc &npc, int dir) {
-  skInst->setAnimRotate(solver,npc,fgtMode,dir);
+  skInst->setAnimRotate(solver,npc,fgtMode,TURN_ANIM_STD,dir);
+  }
+
+void MdlVisual::setAnimWhirl(Npc &npc, int dir) {
+  skInst->setAnimRotate(solver,npc,fgtMode,TURN_ANIM_WHIRL,dir);
   }
 
 void MdlVisual::interrupt() {
