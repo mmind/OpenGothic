@@ -445,6 +445,7 @@ class GameScript final {
 
     void snd_play            (std::string_view fileS);
     void snd_play3d          (std::shared_ptr<zenkit::INpc> npcRef, std::string_view fileS);
+    bool snd_issourcenpc     (std::shared_ptr<zenkit::INpc> npcRef);
 
     // G1.12 specific functions
     void ai_snd_play         (std::shared_ptr<zenkit::INpc> selfRef, std::string_view fileS);
@@ -493,6 +494,7 @@ class GameScript final {
     size_t                                                      gilCount=0;
     std::vector<int32_t>                                        gilAttitudes;
     int                                                         aiOutOrderId=0;
+    Npc*                                                        lastSoundNpc = nullptr;
 
     PerDist                                                     perceptionRanges;
 

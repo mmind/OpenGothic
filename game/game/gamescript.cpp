@@ -309,6 +309,7 @@ void GameScript::initCommon() {
 
   bindExternal("snd_play",                       &GameScript::snd_play);
   bindExternal("snd_play3d",                     &GameScript::snd_play3d);
+  bindExternal("snd_issourcenpc",                &GameScript::snd_issourcenpc);
 
   bindExternal("game_initgerman",                &GameScript::game_initgerman);
   bindExternal("game_initenglish",               &GameScript::game_initenglish);
@@ -3387,6 +3388,21 @@ void GameScript::snd_play3d(std::shared_ptr<zenkit::INpc> npcRef, std::string_vi
     c = char(std::toupper(c));
   auto sfx = ::Sound(*owner.world(),::Sound::T_3D,file,npc->position(),0.f,false);
   sfx.play();
+  lastSoundNpc = npc;
+  }
+
+bool GameScript::snd_issourcenpc(std::shared_ptr<zenkit::INpc> npcRef) {
+  auto npc = findNpc(npcRef);
+  if(npc==nullptr)
+    return false;
+  Log::e("--> compare soundsource for ", npc->displayName(), " against last ", lastSoundNpc != nullptr ? lastSoundNpc->displayName() : "unknown");
+  if (npc == lastSoundNpc) {
+    // Set "other" to this Npc
+    vm.global_other()->set_instance(npc->handlePtr());
+    return true;
+    } else {
+      return false;
+    }
   }
 
 void GameScript::exitsession() {
