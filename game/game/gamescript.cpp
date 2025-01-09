@@ -230,6 +230,8 @@ void GameScript::initCommon() {
   bindExternal("npc_getdisttoitem",              &GameScript::npc_getdisttoitem);
   bindExternal("npc_getheighttoitem",            &GameScript::npc_getheighttoitem);
   bindExternal("npc_getdisttoplayer",            &GameScript::npc_getdisttoplayer);
+  bindExternal("npc_setknowsplayer",             &GameScript::npc_setknowsplayer);
+  bindExternal("npc_knowsplayer",                &GameScript::npc_knowsplayer);
 
   bindExternal("ai_output",                      &GameScript::ai_output);
   bindExternal("ai_stopprocessinfos",            &GameScript::ai_stopprocessinfos);
@@ -2862,6 +2864,20 @@ int GameScript::npc_getactivespelllevel(std::shared_ptr<zenkit::INpc> npcRef) {
   if(npc!=nullptr)
     v = npc->activeSpellLevel();
   return v;
+  }
+
+void GameScript::npc_setknowsplayer(std::shared_ptr<zenkit::INpc> npcRef, std::shared_ptr<zenkit::INpc> playerRef) {
+  auto npc = findNpc(npcRef);
+
+Log::e("npc_setknowsplayer ", npc->displayName(), " attitude is ", npc->attitude());
+  if(npc->attitude() == ATT_NULL)
+    npc->setAttitude(ATT_NEUTRAL);
+  }
+
+bool GameScript::npc_knowsplayer(std::shared_ptr<zenkit::INpc> npcRef, std::shared_ptr<zenkit::INpc> playerRef) {
+  auto npc = findNpc(npcRef);
+
+  return npc->attitude() > ATT_NULL;
   }
 
 void GameScript::ai_processinfos(std::shared_ptr<zenkit::INpc> npcRef) {
