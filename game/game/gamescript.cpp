@@ -3404,15 +3404,14 @@ void GameScript::snd_play3d(std::shared_ptr<zenkit::INpc> npcRef, std::string_vi
     c = char(std::toupper(c));
   auto sfx = ::Sound(*owner.world(),::Sound::T_3D,file,npc->position(),0.f,false);
   sfx.play();
-  lastSoundNpc = npc;
   }
 
 bool GameScript::snd_issourcenpc(std::shared_ptr<zenkit::INpc> npcRef) {
   auto npc = findNpc(npcRef);
   if(npc==nullptr)
     return false;
-  Log::e("--> compare soundsource for ", npc->displayName(), " against last ", lastSoundNpc != nullptr ? lastSoundNpc->displayName() : "unknown");
-  if (npc == lastSoundNpc) {
+Log::e("--> checking issourcenpc for ", npc->displayName());
+  if(npc->isSndSource()) {
     // Set "other" to this Npc
     vm.global_other()->set_instance(npc->handlePtr());
     return true;

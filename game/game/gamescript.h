@@ -496,7 +496,6 @@ class GameScript final {
     size_t                                                      gilCount=0;
     std::vector<int32_t>                                        gilAttitudes;
     int                                                         aiOutOrderId=0;
-    Npc*                                                        lastSoundNpc = nullptr;
 
     PerDist                                                     perceptionRanges;
 
