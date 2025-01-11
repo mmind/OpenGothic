@@ -2737,19 +2737,14 @@ bool GameScript::npc_isdetectedmobownedbynpc(std::shared_ptr<zenkit::INpc> usrRe
   return false;
   }
 
-bool GameScript::npc_isdetectedmobownedbyguild(std::shared_ptr<zenkit::INpc> npcRef, int guild) {
-  static bool first=true;
-  if(first){
-    Log::e("not implemented call [npc_isdetectedmobownedbyguild]");
-    first=false;
-    }
-
-  auto npc = findNpc(npcRef);
+bool GameScript::npc_isdetectedmobownedbyguild(std::shared_ptr<zenkit::INpc> usrRef, int guild) {
+  auto usr = findNpc(usrRef);
   (void)guild;
 
-  if(npc!=nullptr && npc->detectedMob()!=nullptr) {
-    auto  ow   = npc->detectedMob()->ownerName();
+  if(usr!=nullptr && usr->interactive()!=nullptr) {
+    auto  ow   = usr->interactive()->ownerName();
     (void)ow;
+Log::e("--> npc_isdetectedmobownedbyguild is ", ow, " owned by guild ",guild);
     //vm.setReturn(inst.name==ow ? 1 : 0);
     return false;
     }
