@@ -36,6 +36,7 @@ class WorldSound final {
 
     bool    isInListenerRange(const Tempest::Vec3& pos, float sndRgn) const;
     bool    canSeeSource(const Tempest::Vec3& npc) const;
+    bool    isSource(const Tempest::Vec3& npc) const;
 
     static const float talkRange;
 

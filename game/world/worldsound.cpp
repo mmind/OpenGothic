@@ -346,6 +346,16 @@ bool WorldSound::canSeeSource(const Tempest::Vec3& p) const {
   return false;
   }
 
+#include <Tempest/Log>
+bool WorldSound::isSource(const Tempest::Vec3& p) const {
+  for(auto& i:effect3d) {
+Tempest::Log::e("--> compare soundsource for ", p.x,",",p.y,",",p.z," against last ", i->pos.x,",",i->pos.y,",",i->pos.x);
+    if (i->pos == p)
+      return true;
+    }
+  return false;
+  }
+
 void WorldSound::aiOutput(const Tempest::Vec3& pos, std::string_view outputname) {
   if(isInListenerRange(pos,talkRange)){
     std::lock_guard<std::mutex> guard(sync);

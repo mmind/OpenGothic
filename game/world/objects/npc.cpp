@@ -4307,6 +4307,10 @@ bool Npc::canSeeSource() const {
   return false;
   }
 
+bool Npc::isSndSource() const {
+  return owner.sound()->isSource(position());
+  }
+
 bool Npc::canSeeNpc(const Vec3 pos, bool freeLos) const {
   return canRayHitPoint(pos, freeLos);
   }
