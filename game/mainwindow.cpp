@@ -446,7 +446,10 @@ void MainWindow::keyRepeatEvent(KeyEvent& event) {
       return;
     }
   if(uiKeyUp==&rootMenu){
-    rootMenu.keyRepeatEvent(event);
+    if(rootMenu.isActive())
+      rootMenu.keyRepeatEvent(event);
+    else
+      Log::e("keyRepeatEvent for rootMenu, while rootMenu inactive");
     if(event.isAccepted())
       return;
     }
