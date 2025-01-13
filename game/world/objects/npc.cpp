@@ -833,6 +833,10 @@ void Npc::setVisualBody(int32_t headTexNr, int32_t teethTexNr, int32_t bodyTexNr
   vColor  = bodyTexNr;
   bdColor = bodyTexColor;
 
+  // Version 1.12 has a small set of wrongly named Npc-resources, drop those extensions
+  if(owner.version().game == 1 && owner.version().patch == 12 && FileExt::hasExt(head, "MMS"))
+    head = FileExt::removeExt(head);
+
   auto  vhead = head.empty() ? MeshObjects::Mesh() : owner.addView(FileExt::addExt(head,".MMB"),vHead,vTeeth,bdColor);
   auto  vbody = body.empty() ? MeshObjects::Mesh() : owner.addView(FileExt::addExt(body,".ASC"),vColor,0,bdColor);
   visual.setVisualBody(*this,std::move(vhead),std::move(vbody),bdColor);
