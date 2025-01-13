@@ -282,7 +282,11 @@ void GameScript::initCommon() {
   bindExternal("ai_pointatnpc",                  &GameScript::ai_pointatnpc);
 
   bindExternal("mob_hasitems",                   &GameScript::mob_hasitems);
-  bindExternal("ai_printscreen",                 &GameScript::ai_printscreen);
+
+  if(owner.version().game==1 && owner.version().patch == 12)
+    bindExternal("ai_printscreen",               &GameScript::ai_printscreen_1_12);
+  else
+    bindExternal("ai_printscreen",               &GameScript::ai_printscreen);
 
   bindExternal("ta_min",                         &GameScript::ta_min);
 
@@ -3198,6 +3202,10 @@ int GameScript::ai_printscreen(std::string_view msg, int posx, int posy, std::st
   npc->aiPush(AiQueue::aiPrintScreen(timesec,font,posx,posy,msg));
   return 0;
   }
+
+int GameScript::ai_printscreen_1_12(std::shared_ptr<zenkit::INpc> npcRef, std::string_view msg, int posx, int posy, std::string_view font, int timesec, int textcolor) {
+  return ai_printscreen(msg, posx, posy, font, timesec);
+}
 
 int GameScript::mob_hasitems(std::string_view tag, int item) {
   return int(world().hasItems(tag,uint32_t(item)));

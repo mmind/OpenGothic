@@ -413,6 +413,7 @@ class GameScript final {
     void ai_pointat          (std::shared_ptr<zenkit::INpc> npcRef, std::string_view waypoint);
     void ai_pointatnpc       (std::shared_ptr<zenkit::INpc> npcRef, std::shared_ptr<zenkit::INpc> otherRef);
     int  ai_printscreen      (std::string_view msg, int posx, int posy, std::string_view font, int timesec);
+    int  ai_printscreen_1_12 (std::shared_ptr<zenkit::INpc> npcRef, std::string_view msg, int posx, int posy, std::string_view font, int timesec, int textcolor);
 
     int  mob_hasitems        (std::string_view tag, int item);
 
