@@ -381,6 +381,7 @@ class GameScript final {
     void ai_stoplookat       (std::shared_ptr<zenkit::INpc> selfRef);
     void ai_lookat           (std::shared_ptr<zenkit::INpc> selfRef, std::string_view waypoint);
     void ai_lookatnpc        (std::shared_ptr<zenkit::INpc> selfRef, std::shared_ptr<zenkit::INpc> npcRef);
+    void ai_stopaim          (std::shared_ptr<zenkit::INpc> selfRef);
     void ai_removeweapon     (std::shared_ptr<zenkit::INpc> npcRef);
     void ai_unreadyspell     (std::shared_ptr<zenkit::INpc> npcRef);
     void ai_turnaway         (std::shared_ptr<zenkit::INpc> selfRef, std::shared_ptr<zenkit::INpc> npcRef);
