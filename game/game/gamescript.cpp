@@ -322,6 +322,8 @@ void GameScript::initCommon() {
 
   bindExternal("exitsession",                    &GameScript::exitsession);
 
+  overrideExternal("printdebugnpc",              &GameScript::printdebugNpc);
+
   // vm.validateExternals();
 
   spells               = std::make_unique<SpellDefinitions>(vm);
@@ -966,6 +968,17 @@ void GameScript::printCannotUseError(Npc& npc, int32_t atr, int32_t nValue) {
 
   ScopeVar self(*vm.global_self(), npc.handlePtr());
   vm.call_function<void>(id, npc.isPlayer(), atr, nValue);
+  }
+
+void GameScript::printdebugNpc(int type, std::string_view text) {
+  auto self = findNpc(vm.global_self());
+  if(self==nullptr)
+    return;
+  auto dist = npc_getdisttonpc(self->handlePtr(), owner.player()->handlePtr());
+
+  if(dist > 0 && dist < 500) {
+    Log::d("[zspy,",type,"]: ","### ",self->displayName()," ### -> ",text);
+    }
   }
 
 void GameScript::printCannotCastError(Npc &npc, int32_t plM, int32_t itM) {

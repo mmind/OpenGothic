@@ -119,6 +119,7 @@ class GameScript final {
     auto updateDialog (const GameScript::DlgChoice &dlg, Npc &player, Npc &npc) -> std::vector<GameScript::DlgChoice>;
     void exec(const DlgChoice &dlg, Npc &player, Npc &npc);
 
+    void  printdebugNpc               (int type, std::string_view text);
     void  printCannotUseError         (Npc &npc, int32_t atr, int32_t nValue);
     void  printCannotCastError        (Npc &npc, int32_t plM, int32_t itM);
     void  printCannotBuyError         (Npc &npc);
@@ -197,6 +198,12 @@ class GameScript final {
     template <class F>
     void bindExternal(const std::string& name, F function) {
       vm.register_external(name, std::function<typename DetermineSignature<F>::signature> (
+                                   [this, function](auto ... v) { return (this->*function)(v...); }));
+      }
+
+    template <class F>
+    void overrideExternal(const std::string& name, F function) {
+      vm.override_function(name, std::function<typename DetermineSignature<F>::signature> (
                                    [this, function](auto ... v) { return (this->*function)(v...); }));
       }
 
