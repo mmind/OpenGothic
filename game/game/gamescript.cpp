@@ -310,6 +310,13 @@ void GameScript::initCommon() {
   bindExternal("game_initgerman",                &GameScript::game_initgerman);
   bindExternal("game_initenglish",               &GameScript::game_initenglish);
 
+  // Gothic 1.12 added some engine functions
+  if(owner.version().game==1 && owner.version().patch == 12) {
+    bindExternal("wld_getinteractmobstate",      &GameScript::wld_getmobstate);
+    bindExternal("ai_snd_play",                  &GameScript::ai_snd_play);
+    bindExternal("ai_snd_play3d",                &GameScript::ai_snd_play3d);
+    }
+
   bindExternal("exitsession",                    &GameScript::exitsession);
 
   // vm.validateExternals();
@@ -3362,4 +3369,16 @@ void GameScript::setNpcInfoKnown(const zenkit::INpc& npc, const zenkit::IInfo& i
 bool GameScript::doesNpcKnowInfo(const zenkit::INpc& npc, size_t infoInstance) const {
   auto id = std::make_pair(vm.find_symbol_by_instance(npc)->index(),infoInstance);
   return dlgKnownInfos.find(id)!=dlgKnownInfos.end();
+  }
+
+// Gothic 1.12 specific function - used for "LogEntry" and similar sounds
+// selfRef just points to self in the script usages - for positioning the sound?
+void GameScript::ai_snd_play(std::shared_ptr<zenkit::INpc> selfRef, std::string_view fileS) {
+  snd_play(fileS);
+  }
+
+// Gothic 1.12 specific function - only ever used as "ai_snd_play3d(self, self, ....)"
+// selfRef just points to self in the script usages - for positioning the sound?
+void GameScript::ai_snd_play3d(std::shared_ptr<zenkit::INpc> selfRef, std::shared_ptr<zenkit::INpc> npcRef, std::string_view fileS) {
+  snd_play3d(npcRef, fileS);
   }

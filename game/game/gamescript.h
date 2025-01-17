@@ -436,6 +436,10 @@ class GameScript final {
     void snd_play            (std::string_view fileS);
     void snd_play3d          (std::shared_ptr<zenkit::INpc> npcRef, std::string_view fileS);
 
+    // G1.12 specific functions
+    void ai_snd_play         (std::shared_ptr<zenkit::INpc> selfRef, std::string_view fileS);
+    void ai_snd_play3d       (std::shared_ptr<zenkit::INpc> selfRef, std::shared_ptr<zenkit::INpc> npcRef, std::string_view fileS);
+
     void exitsession         ();
 
     void sort(std::vector<DlgChoice>& dlg);
