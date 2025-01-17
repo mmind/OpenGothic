@@ -435,6 +435,7 @@ enum Talent : uint8_t {
   TALENT_BOW                = 3,
   TALENT_CROSSBOW           = 4,
   TALENT_PICKLOCK           = 5,
+  TALENT_G1_PICKPOCKET      = 6,
   TALENT_MAGE               = 7,
   TALENT_SNEAK              = 8,
   TALENT_REGENERATE         = 9,
