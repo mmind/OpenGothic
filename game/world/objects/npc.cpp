@@ -3656,7 +3656,13 @@ bool Npc::beginCastSpell() {
   // castLevel        = CS_Invest_0;
   currentSpellCast = active->clsId();
   castNextTime     = owner.tickCount();
-  hnpc->aivar[88]  = 0; // HACK: clear AIV_SpellLevel
+
+  // HACK: clear AIV_SpellLevel in Gothic 2
+  if(owner.version().game==2) {
+    static const int AIV_SPELLLEVEL = 88;
+    hnpc->aivar[AIV_SPELLLEVEL] = 0;
+    }
+
   manaInvested     = 0;
 
   const SpellCode code = SpellCode(owner.script().invokeMana(*this,currentTarget,manaInvested));
