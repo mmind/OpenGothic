@@ -176,6 +176,11 @@ Npc::Npc(World &owner, size_t instance, std::string_view waypoint, ProcessPolicy
     hnpc->damage_type = 2;
   setTrueGuild(hnpc->guild); // https://worldofplayers.ru/threads/12446/post-878087
   setPerceptionTime(5000);   // https://github.com/Try/OpenGothic/pull/720#issuecomment-2602908614
+
+  // Gothic 1.12 sometimes has NPCs without their sense range set, fix that
+  bool g1_12 = (owner.version().game==1 && owner.version().patch == 12);
+  if(g1_12 && isHuman() && hnpc->senses_range==0)
+    hnpc->senses_range = 2000;
   }
 
 Npc::~Npc(){
