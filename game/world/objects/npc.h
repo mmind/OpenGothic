@@ -221,6 +221,7 @@ class Npc final {
     int32_t    experience() const;
     int32_t    experienceNext() const;
     int32_t    learningPoints() const;
+    void       setLearningPoints(int32_t lp);
     int32_t    diveTime() const;
 
     void      setAttitude(Attitude att);

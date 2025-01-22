@@ -1257,6 +1257,10 @@ int32_t Npc::learningPoints() const {
   return hnpc->lp;
   }
 
+void Npc::setLearningPoints(int32_t lp) {
+  hnpc->lp = lp;
+  }
+
 int32_t Npc::diveTime() const {
   return mvAlgo.diveTime();
   }

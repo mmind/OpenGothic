@@ -146,6 +146,7 @@ Marvin::Marvin() {
 
     {"toggle gi",                  C_ToggleGI},
     {"toggle vsm",                 C_ToggleVsm},
+    {"lp %d",                      C_Lp},
     };
   }
 
@@ -351,6 +352,14 @@ bool Marvin::exec(std::string_view v) {
       }
     case C_ToggleTime:{
       Gothic::inst().setClock(!Gothic::inst().doClock());
+      return true;
+      }
+    case C_Lp:{
+      Npc* player = Gothic::inst().player();
+      size_t lp = 0;
+      if(!fromString(ret.argv[0], lp))
+        return false;
+      player->setLearningPoints(int32_t(lp));
       return true;
       }
     case C_TimeMultiplyer: {
