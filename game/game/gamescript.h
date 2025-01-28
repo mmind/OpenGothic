@@ -371,6 +371,7 @@ class GameScript final {
     bool npc_isdetectedmobownedbyguild(std::shared_ptr<zenkit::INpc> npcRef, int guild);
     void npc_setknowsplayer  (std::shared_ptr<zenkit::INpc> npcRef, std::shared_ptr<zenkit::INpc> otherRef);
     bool npc_knowsplayer     (std::shared_ptr<zenkit::INpc> npcRef, std::shared_ptr<zenkit::INpc> otherRef);
+    bool npc_hasnews(std::shared_ptr<zenkit::INpc> npcRef, int newsid, std::shared_ptr<zenkit::INpc> offenderRef, std::shared_ptr<zenkit::INpc> victimRef);
 
     void ai_output           (std::shared_ptr<zenkit::INpc> selfRef, std::shared_ptr<zenkit::INpc> targetRef, std::string_view outputname);
     void ai_stopprocessinfos (std::shared_ptr<zenkit::INpc> selfRef);

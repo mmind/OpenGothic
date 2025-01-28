@@ -232,6 +232,7 @@ void GameScript::initCommon() {
   bindExternal("npc_getdisttoplayer",            &GameScript::npc_getdisttoplayer);
   bindExternal("npc_setknowsplayer",             &GameScript::npc_setknowsplayer);
   bindExternal("npc_knowsplayer",                &GameScript::npc_knowsplayer);
+  bindExternal("npc_hasnews",                    &GameScript::npc_hasnews);
 
   bindExternal("ai_output",                      &GameScript::ai_output);
   bindExternal("ai_stopprocessinfos",            &GameScript::ai_stopprocessinfos);
@@ -2876,6 +2877,13 @@ bool GameScript::npc_knowsplayer(std::shared_ptr<zenkit::INpc> npcRef, std::shar
   auto npc = findNpc(npcRef);
 
   return npc->attitude() > ATT_NULL;
+  }
+
+bool GameScript::npc_hasnews(std::shared_ptr<zenkit::INpc> npcRef, int newsid, std::shared_ptr<zenkit::INpc> offenderRef, std::shared_ptr<zenkit::INpc> victimRef) {
+  auto npc = findNpc(npcRef);
+
+Log::e("npc_hasnews ", npc->displayName(), " newsid ", newsid);
+  return false;
   }
 
 void GameScript::ai_processinfos(std::shared_ptr<zenkit::INpc> npcRef) {
