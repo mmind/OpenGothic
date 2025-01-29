@@ -208,6 +208,9 @@ Gothic::Gothic() {
   if(plDef.empty())
     plDef = "PC_HERO";
 
+  if(gameDatDef.empty() && vinfo.game == 1 && vinfo.patch == 12)
+    gameDatDef = "GAME";
+
   if(gameDatDef.empty())
     gameDatDef  = "GOTHIC.DAT"; else
     gameDatDef += ".DAT";
@@ -789,12 +792,22 @@ void Gothic::detectGothicVersion() {
     vinfo.game = 1; else
     vinfo.game = 2;
 
+  if(vinfo.game==1) {
+    // Version 1.12 comes with specific music files, allowing detection
+    // Gothic 1 otherwise does not provide patchlevel detection
+    if(FileUtil::exists(nestedPath({u"_work",u"Data",u"Music",u"orchestra",u"Con_Fast_Strings.sgt"},Dir::FT_File)))
+      vinfo.patch = 12;
+    else
+      vinfo.patch = 0;
+    }
+
   if(vinfo.game==2) {
     vinfo.patch = baseIniFile->getI("GAME","PATCHVERSION");
     }
 
   if(CommandLine::inst().doForceG1()) {
     vinfo.game = 1;
+    vinfo.patch = 0;
     }
   else if(CommandLine::inst().doForceG2()) {
     vinfo.game  = 2;

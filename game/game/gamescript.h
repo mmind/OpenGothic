@@ -373,7 +373,9 @@ class GameScript final {
     void ai_lookatnpc        (std::shared_ptr<zenkit::INpc> selfRef, std::shared_ptr<zenkit::INpc> npcRef);
     void ai_removeweapon     (std::shared_ptr<zenkit::INpc> npcRef);
     void ai_unreadyspell     (std::shared_ptr<zenkit::INpc> npcRef);
+    void ai_turnaway         (std::shared_ptr<zenkit::INpc> selfRef, std::shared_ptr<zenkit::INpc> npcRef);
     void ai_turntonpc        (std::shared_ptr<zenkit::INpc> selfRef, std::shared_ptr<zenkit::INpc> npcRef);
+    void ai_whirlaround      (std::shared_ptr<zenkit::INpc> selfRef, std::shared_ptr<zenkit::INpc> npcRef);
     void ai_outputsvm        (std::shared_ptr<zenkit::INpc> selfRef, std::shared_ptr<zenkit::INpc> targetRef, std::string_view name);
     void ai_outputsvm_overlay(std::shared_ptr<zenkit::INpc> selfRef, std::shared_ptr<zenkit::INpc> targetRef, std::string_view name);
     void ai_startstate       (std::shared_ptr<zenkit::INpc> selfRef, int func, int state, std::string_view wp);
@@ -413,6 +415,7 @@ class GameScript final {
     void ai_pointat          (std::shared_ptr<zenkit::INpc> npcRef, std::string_view waypoint);
     void ai_pointatnpc       (std::shared_ptr<zenkit::INpc> npcRef, std::shared_ptr<zenkit::INpc> otherRef);
     int  ai_printscreen      (std::string_view msg, int posx, int posy, std::string_view font, int timesec);
+    int  ai_printscreen_1_12 (std::shared_ptr<zenkit::INpc> npcRef, std::string_view msg, int posx, int posy, std::string_view font, int timesec, int textcolor);
 
     int  mob_hasitems        (std::string_view tag, int item);
 
@@ -434,6 +437,10 @@ class GameScript final {
 
     void snd_play            (std::string_view fileS);
     void snd_play3d          (std::shared_ptr<zenkit::INpc> npcRef, std::string_view fileS);
+
+    // G1.12 specific functions
+    void ai_snd_play         (std::shared_ptr<zenkit::INpc> selfRef, std::string_view fileS);
+    void ai_snd_play3d       (std::shared_ptr<zenkit::INpc> selfRef, std::shared_ptr<zenkit::INpc> npcRef, std::string_view fileS);
 
     void exitsession         ();
 

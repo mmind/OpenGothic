@@ -84,4 +84,11 @@ namespace FileExt {
       return s+&ext[1];
     return s+ext;
     }
+
+  inline std::string removeExt(const std::string& s) {
+    size_t cut = s.rfind('.');
+    if(cut==std::string::npos)
+      return s;
+    return s.substr(0, cut);
+    }
   }

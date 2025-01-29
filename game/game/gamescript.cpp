@@ -241,7 +241,9 @@ void GameScript::initCommon() {
   bindExternal("ai_lookatnpc",                   &GameScript::ai_lookatnpc);
   bindExternal("ai_removeweapon",                &GameScript::ai_removeweapon);
   bindExternal("ai_unreadyspell",                &GameScript::ai_unreadyspell);
+  bindExternal("ai_turnaway",                    &GameScript::ai_turnaway);
   bindExternal("ai_turntonpc",                   &GameScript::ai_turntonpc);
+  bindExternal("ai_whirlaround",                 &GameScript::ai_whirlaround);
   bindExternal("ai_outputsvm",                   &GameScript::ai_outputsvm);
   bindExternal("ai_outputsvm_overlay",           &GameScript::ai_outputsvm_overlay);
   bindExternal("ai_startstate",                  &GameScript::ai_startstate);
@@ -282,7 +284,11 @@ void GameScript::initCommon() {
   bindExternal("ai_pointatnpc",                  &GameScript::ai_pointatnpc);
 
   bindExternal("mob_hasitems",                   &GameScript::mob_hasitems);
-  bindExternal("ai_printscreen",                 &GameScript::ai_printscreen);
+
+  if(owner.version().game==1 && owner.version().patch == 12)
+    bindExternal("ai_printscreen",               &GameScript::ai_printscreen_1_12);
+  else
+    bindExternal("ai_printscreen",               &GameScript::ai_printscreen);
 
   bindExternal("ta_min",                         &GameScript::ta_min);
 
@@ -305,6 +311,13 @@ void GameScript::initCommon() {
 
   bindExternal("game_initgerman",                &GameScript::game_initgerman);
   bindExternal("game_initenglish",               &GameScript::game_initenglish);
+
+  // Gothic 1.12 added some engine functions
+  if(owner.version().game==1 && owner.version().patch == 12) {
+    bindExternal("wld_getinteractmobstate",      &GameScript::wld_getmobstate);
+    bindExternal("ai_snd_play",                  &GameScript::ai_snd_play);
+    bindExternal("ai_snd_play3d",                &GameScript::ai_snd_play3d);
+    }
 
   bindExternal("exitsession",                    &GameScript::exitsession);
 
@@ -2908,11 +2921,25 @@ void GameScript::ai_unreadyspell(std::shared_ptr<zenkit::INpc> npcRef) {
     npc->aiPush(AiQueue::aiRemoveWeapon());
   }
 
+void GameScript::ai_turnaway(std::shared_ptr<zenkit::INpc> selfRef, std::shared_ptr<zenkit::INpc> npcRef) {
+  auto npc  = findNpc(npcRef);
+  auto self = findNpc(selfRef);
+  if(self!=nullptr)
+    self->aiPush(AiQueue::aiTurnAway(npc));
+  }
+
 void GameScript::ai_turntonpc(std::shared_ptr<zenkit::INpc> selfRef, std::shared_ptr<zenkit::INpc> npcRef) {
   auto npc  = findNpc(npcRef);
   auto self = findNpc(selfRef);
   if(self!=nullptr)
     self->aiPush(AiQueue::aiTurnToNpc(npc));
+  }
+
+void GameScript::ai_whirlaround(std::shared_ptr<zenkit::INpc> selfRef, std::shared_ptr<zenkit::INpc> npcRef) {
+  auto npc  = findNpc(npcRef);
+  auto self = findNpc(selfRef);
+  if(self!=nullptr)
+    self->aiPush(AiQueue::aiWhirlToNpc(npc));
   }
 
 void GameScript::ai_outputsvm(std::shared_ptr<zenkit::INpc> selfRef, std::shared_ptr<zenkit::INpc> targetRef, std::string_view name) {
@@ -3199,6 +3226,10 @@ int GameScript::ai_printscreen(std::string_view msg, int posx, int posy, std::st
   return 0;
   }
 
+int GameScript::ai_printscreen_1_12(std::shared_ptr<zenkit::INpc> npcRef, std::string_view msg, int posx, int posy, std::string_view font, int timesec, int textcolor) {
+  return ai_printscreen(msg, posx, posy, font, timesec);
+}
+
 int GameScript::mob_hasitems(std::string_view tag, int item) {
   return int(world().hasItems(tag,uint32_t(item)));
   }
@@ -3354,4 +3385,16 @@ void GameScript::setNpcInfoKnown(const zenkit::INpc& npc, const zenkit::IInfo& i
 bool GameScript::doesNpcKnowInfo(const zenkit::INpc& npc, size_t infoInstance) const {
   auto id = std::make_pair(vm.find_symbol_by_instance(npc)->index(),infoInstance);
   return dlgKnownInfos.find(id)!=dlgKnownInfos.end();
+  }
+
+// Gothic 1.12 specific function - used for "LogEntry" and similar sounds
+// selfRef just points to self in the script usages - for positioning the sound?
+void GameScript::ai_snd_play(std::shared_ptr<zenkit::INpc> selfRef, std::string_view fileS) {
+  snd_play(fileS);
+  }
+
+// Gothic 1.12 specific function - only ever used as "ai_snd_play3d(self, self, ....)"
+// selfRef just points to self in the script usages - for positioning the sound?
+void GameScript::ai_snd_play3d(std::shared_ptr<zenkit::INpc> selfRef, std::shared_ptr<zenkit::INpc> npcRef, std::string_view fileS) {
+  snd_play3d(npcRef, fileS);
   }
